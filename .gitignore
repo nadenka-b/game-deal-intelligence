@@ -1,0 +1,19 @@
+# Airflow logs and local files
+logs/
+plugins/
+.env
+
+# Python compilation files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.venv/
+venv/
+
+
+# IDE settings
+.idea/
+.vscode/
+.DS_Store
