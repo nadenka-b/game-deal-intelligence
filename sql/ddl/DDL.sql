@@ -12,18 +12,15 @@ CREATE TABLE IF NOT EXISTS raw.pipeline_runs (
     status VARCHAR(10) NOT NULL,
     error_message TEXT,
     CONSTRAINT chk_pipeline_runs_status CHECK (
-            'running',
-            'success',
-            'failed',
-            'partial'
-        )
+            status IN ('running', 'success', 'failed', 'partial')
+        ),
     CONSTRAINT chk_pipeline_runs_finished CHECK (
         (
             status = 'running'
             AND finished_at IS NULL
         )
         OR (
-            status IN ('success', 'failed')
+            status IN ('success', 'failed', 'partial')
             AND finished_at IS NOT NULL
         )
     )
@@ -82,7 +79,7 @@ CREATE TABLE IF NOT EXISTS core.deals_current (
     game_id INT NOT NULL REFERENCES core.games (game_id),
     store_id INT NOT NULL REFERENCES core.stores (store_id),
     sale_price NUMERIC(10, 2) NOT NULL,
-    normal_price NUMERIC(10, 2) NOT NULl,
+    normal_price NUMERIC(10, 2) NOT NULL,
     savings NUMERIC(5, 2) NOT NULL,
     is_on_sale BOOLEAN,
     source_last_change TIMESTAMPTZ NOT NULL,
